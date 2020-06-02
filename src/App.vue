@@ -15,4 +15,7 @@ export default {
 
 <style>
 @import "./assets/css/base.css";
+#app{
+  margin-bottom: 49px;
+}
 </style>

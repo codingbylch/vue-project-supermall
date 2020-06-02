@@ -3,36 +3,69 @@
     <nav-bar class="home-nav">
       <div slot="center">购物街</div>
     </nav-bar>
-    <home-swiper :banners='banners'></home-swiper>
-    <recommend-view :recommends='recommends'></recommend-view>
+    <home-swiper :banners="banners"></home-swiper>
+    <recommend-view :recommends="recommends"></recommend-view>
+    <feature-view></feature-view>
+    <tab-control :titles="['流行','新款','精选']"></tab-control>
+    <good-list :goods="goods['pop'].list"></good-list>
   </div>
 </template>
 
 <script>
 import NavBar from "components/common/navbar/NavBar";
-import { getHomeMultidata } from "network/home.js";
+import TabControl from "components/content/tabControl/TabControl";
+import GoodList from "components/content/goods/GoodList";
+
 import HomeSwiper from "./childComps/HomeSwiper";
-import RecommendView from './childComps/RecommendView';
+import RecommendView from "./childComps/RecommendView";
+import FeatureView from "./childComps/FeatureView";
+
+import { getHomeMultidata, getHomeGoods } from "network/home.js";
 
 export default {
   components: {
     NavBar,
+    TabControl,
+    GoodList,
     HomeSwiper,
-    RecommendView
+    RecommendView,
+    FeatureView
   },
   created() {
     // 发送网络请求
-    getHomeMultidata().then(res => {
-      // console.log(res.data.banner);
-      this.banners = res.data.banner.list;
-      this.recommends = res.data.recommend.list;
-    });
+    this.getHomeMultidata();
+    this.getHomeGoods("pop");
+    this.getHomeGoods("new");
+    this.getHomeGoods("sell");
   },
   data() {
     return {
       banners: [],
-      recommends: []
+      recommends: [],
+      titles: [],
+      goods: {
+        pop: { page: 0, list: [] },
+        new: { page: 0, list: [] },
+        sell: { page: 0, list: [] }
+      }
     };
+  },
+  methods: {
+    getHomeMultidata() {
+      getHomeMultidata().then(res => {
+        // console.log(res.data.banner);
+        this.banners = res.data.banner.list;
+        this.recommends = res.data.recommend.list;
+      });
+    },
+    getHomeGoods(type) {
+      const page = this.goods[type].page + 1;
+      getHomeGoods(type, page).then(res => {
+        this.goods[type].list.push(...res.data.list);
+        // this.goods[type].list = this.goods[type].list.concat(res.data.list);
+        // console.log(this.goods[type].list)
+      });
+    }
   }
 };
 </script>
@@ -40,5 +73,13 @@ export default {
 <style>
 .home-nav {
   background-color: var(--color-tint);
+  position: sticky;
+  top: 0px;
+  z-index: 1;
+}
+.tab-control {
+  position: sticky;
+  top: 44px;
+  background-color: white;
 }
 </style>
