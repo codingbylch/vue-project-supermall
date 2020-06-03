@@ -28,10 +28,11 @@ export default {
       currentIndex: 0
     };
   },
-  methods:{
-      itemClick(index){
-          this.currentIndex = index;
-      }
+  methods: {
+    itemClick(index) {
+      this.currentIndex = index;
+      this.$emit("tabClick", index);
+    }
   }
 };
 </script>
@@ -42,13 +43,12 @@ export default {
   text-align: center;
   height: 40px;
   line-height: 40px;
-
 }
 .tab-control-item {
   flex: 1;
 }
-.tab-control-item span{
-    padding-bottom: 5px;
+.tab-control-item span {
+  padding-bottom: 5px;
 }
 .active {
   color: var(--color-high-text);
