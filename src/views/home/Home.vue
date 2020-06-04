@@ -1,18 +1,22 @@
 <template>
-  <div>
+  <div id="home">
     <nav-bar class="home-nav">
       <div slot="center">购物街</div>
     </nav-bar>
-    <home-swiper :banners="banners"></home-swiper>
-    <recommend-view :recommends="recommends"></recommend-view>
-    <feature-view></feature-view>
-    <tab-control :titles="['流行','新款','精选']" @tabClick="tabClick"></tab-control>
-    <good-list :goods="showGoods"></good-list>
+
+    <scroll class="content">
+      <home-swiper :banners="banners"></home-swiper>
+      <recommend-view :recommends="recommends"></recommend-view>
+      <feature-view></feature-view>
+      <tab-control :titles="['流行','新款','精选']" @tabClick="tabClick"></tab-control>
+      <good-list :goods="showGoods"></good-list>
+    </scroll>
   </div>
 </template>
 
 <script>
 import NavBar from "components/common/navbar/NavBar";
+import Scroll from "components/common/scroll/Scroll";
 import TabControl from "components/content/tabControl/TabControl";
 import GoodList from "components/content/goods/GoodList";
 
@@ -25,6 +29,7 @@ import { getHomeMultidata, getHomeGoods } from "network/home.js";
 export default {
   components: {
     NavBar,
+    Scroll,
     TabControl,
     GoodList,
     HomeSwiper,
@@ -51,9 +56,9 @@ export default {
       currentType: "pop"
     };
   },
-  computed:{
-    showGoods(){
-      return this.goods[this.currentType].list
+  computed: {
+    showGoods() {
+      return this.goods[this.currentType].list;
     }
   },
   methods: {
@@ -92,7 +97,11 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
+#home{
+  height: 100vh;
+  position: relative;
+}
 .home-nav {
   background-color: var(--color-tint);
   position: sticky;
@@ -103,5 +112,12 @@ export default {
   position: sticky;
   top: 44px;
   background-color: white;
+}
+.content {
+  /* height: calc(100% - 93px); */
+  overflow: hidden;
+  position: absolute;
+  top: 44px;
+  bottom: 49px;
 }
 </style>
