@@ -35,6 +35,7 @@ import FeatureView from "./childComps/FeatureView";
 
 import { getHomeMultidata, getHomeGoods } from "network/home.js";
 
+import {debounce} from '@/common/utils.js';
 export default {
   components: {
     NavBar,
@@ -54,10 +55,14 @@ export default {
     this.getHomeGoods("sell");
   },
   mounted() {
+    // 防抖处理
+    const debounce_refresh = debounce(this.$refs.scroll.refresh, 500);
     // 监听item中图片加载完成
     this.$bus.$on("itemImageLoad", () => {
-      console.log("正在监听");
-      this.$refs.scroll.refresh();
+      // console.log("正在监听");
+      // this.$refs.scroll.refresh();
+
+      debounce_refresh();
     });
   },
   data() {
@@ -105,7 +110,7 @@ export default {
     },
     pullingUp() {
       console.log("上拉加载更多");
-      this.getHomeGoods(this.currentType);
+      this.getHomeGoods(this.currentType); // this.currentType就是当前选中的选项
     },
     // 网络请求相关方法
     getHomeMultidata() {
@@ -124,7 +129,8 @@ export default {
         // this.goods[type].list = this.goods[type].list.concat(res.data.list);
         // console.log(this.goods[type].list)
       });
-    }
+    },
+
   }
 };
 </script>
