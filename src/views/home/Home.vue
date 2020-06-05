@@ -4,14 +4,14 @@
       <div slot="center">购物街</div>
     </nav-bar>
 
-    <scroll class="content" ref="scroll">
+    <scroll class="content" ref="scroll" :probe-type="3" @scroll="contentScroll">
       <home-swiper :banners="banners"></home-swiper>
       <recommend-view :recommends="recommends"></recommend-view>
       <feature-view></feature-view>
       <tab-control :titles="['流行','新款','精选']" @tabClick="tabClick"></tab-control>
       <good-list :goods="showGoods"></good-list>
     </scroll>
-    <back-top @click.native="backClick"></back-top>
+    <back-top @click.native="backClick" v-show="isShowTop"></back-top>
   </div>
 </template>
 
@@ -56,7 +56,8 @@ export default {
         new: { page: 0, list: [] },
         sell: { page: 0, list: [] }
       },
-      currentType: "pop"
+      currentType: "pop",
+      isShowTop: false
     };
   },
   computed: {
@@ -99,6 +100,10 @@ export default {
     backClick() {
       // 通过$ref来访问组件内的属性和方法
       this.$refs.scroll.scrollTo(0, 0, 500);
+    },
+    contentScroll(position) {
+      // console.log(position)
+      this.isShowTop = position.y < -1000;
     }
   }
 };
