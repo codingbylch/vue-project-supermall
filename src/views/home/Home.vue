@@ -52,12 +52,13 @@ export default {
     this.getHomeGoods("pop");
     this.getHomeGoods("new");
     this.getHomeGoods("sell");
-
+  },
+  mounted() {
     // 监听item中图片加载完成
-    this.$bus.$on('itemImageLoad',()=>{
-      console.log('正在监听');
-      this.$refs.scroll.refresh()
-    })
+    this.$bus.$on("itemImageLoad", () => {
+      console.log("正在监听");
+      this.$refs.scroll.refresh();
+    });
   },
   data() {
     return {

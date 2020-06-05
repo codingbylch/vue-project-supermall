@@ -26,7 +26,7 @@ export default {
 
     // 3.监听上拉事件
     this.scroll.on("pullingUp", () => {
-      this.$emit('pullingUp')
+      this.$emit("pullingUp");
     });
   },
   props: {
@@ -46,13 +46,13 @@ export default {
   },
   methods: {
     scrollTo(x, y, time = 500) {
-      this.scroll.scrollTo(x, y, time);
+      this.scroll && this.scroll.scrollTo && this.scroll.scrollTo(x, y, time);
     },
-    finishPullUp(){
+    finishPullUp() {
       this.scroll.finishPullUp();
     },
-    refresh(){
-      this.scroll.refresh();
+    refresh() {
+      this.scroll && this.scroll.refresh();
     }
   }
 };
