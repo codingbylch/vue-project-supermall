@@ -4,7 +4,14 @@
       <div slot="center">购物街</div>
     </nav-bar>
 
-    <scroll class="content" ref="scroll" :probe-type="3" @scroll="contentScroll">
+    <scroll
+      class="content"
+      ref="scroll"
+      :probe-type="3"
+      :pull-up-load="true"
+      @scroll="contentScroll"
+      @pullingUp="pullingUp"
+    >
       <home-swiper :banners="banners"></home-swiper>
       <recommend-view :recommends="recommends"></recommend-view>
       <feature-view></feature-view>
@@ -45,6 +52,12 @@ export default {
     this.getHomeGoods("pop");
     this.getHomeGoods("new");
     this.getHomeGoods("sell");
+
+    // 监听item中图片加载完成
+    this.$bus.$on('itemImageLoad',()=>{
+      console.log('正在监听');
+      this.$refs.scroll.refresh()
+    })
   },
   data() {
     return {
@@ -81,6 +94,18 @@ export default {
       }
       console.log(this.currentType);
     },
+    backClick() {
+      // 通过$ref来访问组件内的属性和方法
+      this.$refs.scroll.scrollTo(0, 0, 500);
+    },
+    contentScroll(position) {
+      // console.log(position)
+      this.isShowTop = position.y < -1000;
+    },
+    pullingUp() {
+      console.log("上拉加载更多");
+      this.getHomeGoods(this.currentType);
+    },
     // 网络请求相关方法
     getHomeMultidata() {
       getHomeMultidata().then(res => {
@@ -93,17 +118,11 @@ export default {
       const page = this.goods[type].page + 1;
       getHomeGoods(type, page).then(res => {
         this.goods[type].list.push(...res.data.list);
+        this.goods[type].page += 1;
+        this.$refs.scroll.finishPullUp();
         // this.goods[type].list = this.goods[type].list.concat(res.data.list);
         // console.log(this.goods[type].list)
       });
-    },
-    backClick() {
-      // 通过$ref来访问组件内的属性和方法
-      this.$refs.scroll.scrollTo(0, 0, 500);
-    },
-    contentScroll(position) {
-      // console.log(position)
-      this.isShowTop = position.y < -1000;
     }
   }
 };

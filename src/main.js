@@ -4,6 +4,8 @@ import router from './router/index';
 
 Vue.config.productionTip = false
 
+Vue.prototype.$bus = new Vue() // Vue实例可以作为一个事件总线
+
 new Vue({
   render: h => h(App),
   router
