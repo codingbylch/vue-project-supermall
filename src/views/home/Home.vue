@@ -4,13 +4,14 @@
       <div slot="center">购物街</div>
     </nav-bar>
 
-    <scroll class="content">
+    <scroll class="content" ref="scroll">
       <home-swiper :banners="banners"></home-swiper>
       <recommend-view :recommends="recommends"></recommend-view>
       <feature-view></feature-view>
       <tab-control :titles="['流行','新款','精选']" @tabClick="tabClick"></tab-control>
       <good-list :goods="showGoods"></good-list>
     </scroll>
+    <back-top @click.native="backClick"></back-top>
   </div>
 </template>
 
@@ -19,6 +20,7 @@ import NavBar from "components/common/navbar/NavBar";
 import Scroll from "components/common/scroll/Scroll";
 import TabControl from "components/content/tabControl/TabControl";
 import GoodList from "components/content/goods/GoodList";
+import BackTop from "components/content/backTop/BackTop";
 
 import HomeSwiper from "./childComps/HomeSwiper";
 import RecommendView from "./childComps/RecommendView";
@@ -32,6 +34,7 @@ export default {
     Scroll,
     TabControl,
     GoodList,
+    BackTop,
     HomeSwiper,
     RecommendView,
     FeatureView
@@ -92,13 +95,17 @@ export default {
         // this.goods[type].list = this.goods[type].list.concat(res.data.list);
         // console.log(this.goods[type].list)
       });
+    },
+    backClick() {
+      // 通过$ref来访问组件内的属性和方法
+      this.$refs.scroll.scrollTo(0, 0, 500);
     }
   }
 };
 </script>
 
 <style scoped>
-#home{
+#home {
   height: 100vh;
   position: relative;
 }
@@ -114,10 +121,10 @@ export default {
   background-color: white;
 }
 .content {
-  /* height: calc(100% - 93px); */
+  height: calc(100% - 93px);
   overflow: hidden;
   position: absolute;
-  top: 44px;
-  bottom: 49px;
+  /* top: 44px;
+  bottom: 49px; */
 }
 </style>
