@@ -3,7 +3,13 @@
     <nav-bar class="home-nav">
       <div slot="center">购物街</div>
     </nav-bar>
-
+    <tab-control
+      :titles="['流行','新款','精选']"
+      @tabClick="tabClick"
+      ref="tabControl"
+      class="tab-control"
+      v-show="isTabFixed"
+    ></tab-control>
     <scroll
       class="content"
       ref="scroll"
@@ -12,10 +18,10 @@
       @scroll="contentScroll"
       @pullingUp="pullingUp"
     >
-      <home-swiper :banners="banners"></home-swiper>
+      <home-swiper :banners="banners" @swiperImageLoad="swiperImageLoad"></home-swiper>
       <recommend-view :recommends="recommends"></recommend-view>
       <feature-view></feature-view>
-      <tab-control :titles="['流行','新款','精选']" @tabClick="tabClick"></tab-control>
+      <tab-control :titles="['流行','新款','精选']" @tabClick="tabClick" ref="tabControl"></tab-control>
       <good-list :goods="showGoods"></good-list>
     </scroll>
     <back-top @click.native="backClick" v-show="isShowTop"></back-top>
@@ -35,7 +41,7 @@ import FeatureView from "./childComps/FeatureView";
 
 import { getHomeMultidata, getHomeGoods } from "network/home.js";
 
-import {debounce} from '@/common/utils.js';
+import { debounce } from "@/common/utils.js";
 export default {
   components: {
     NavBar,
@@ -64,6 +70,8 @@ export default {
 
       debounce_refresh();
     });
+    // 2.获取tbControl的offsetTop
+    // 所有组件都有一个属性$el,用于获取组件中的元素
   },
   data() {
     return {
@@ -76,7 +84,9 @@ export default {
         sell: { page: 0, list: [] }
       },
       currentType: "pop",
-      isShowTop: false
+      isShowTop: false,
+      tabOffsetTop: null,
+      isTabFixed: false
     };
   },
   computed: {
@@ -107,11 +117,20 @@ export default {
     contentScroll(position) {
       // console.log(position)
       this.isShowTop = position.y < -1000;
+      // 是否吸顶
+      this.isTabFixed = -position.y > this.tabOffsetTop;
+      // console.log(-position.y, this.tabOffsetTop);
     },
     pullingUp() {
       console.log("上拉加载更多");
       this.getHomeGoods(this.currentType); // this.currentType就是当前选中的选项
     },
+    swiperImageLoad() {
+      //3.赋值，获取到了offsetTop的值
+      this.tabOffsetTop = this.$refs.tabControl.$el.offsetTop;
+      console.log(this.$refs.tabControl.$el.offsetTop);
+    },
+
     // 网络请求相关方法
     getHomeMultidata() {
       getHomeMultidata().then(res => {
@@ -129,8 +148,7 @@ export default {
         // this.goods[type].list = this.goods[type].list.concat(res.data.list);
         // console.log(this.goods[type].list)
       });
-    },
-
+    }
   }
 };
 </script>
@@ -142,20 +160,20 @@ export default {
 }
 .home-nav {
   background-color: var(--color-tint);
-  position: sticky;
+  /* position: sticky;
   top: 0px;
-  z-index: 1;
+  z-index: 1; */
 }
 .tab-control {
-  position: sticky;
-  top: 44px;
+  position: relative;
+  z-index: 1;
   background-color: white;
 }
 .content {
-  height: calc(100% - 93px);
+  /* height: calc(100% - 93px); */
   overflow: hidden;
   position: absolute;
-  /* top: 44px;
-  bottom: 49px; */
+  top: 44px;
+  bottom: 49px;
 }
 </style>

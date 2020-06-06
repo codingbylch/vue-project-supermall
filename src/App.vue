@@ -1,6 +1,8 @@
 <template>
   <div id="app">
-    <router-view></router-view>
+    <keep-alive>
+      <router-view></router-view>
+    </keep-alive>
     <main-tab-bar></main-tab-bar>
   </div>
 </template>
@@ -9,13 +11,13 @@
 import MainTabBar from "components/content/MainTabBar";
 export default {
   name: "App",
-  components: {MainTabBar}
+  components: { MainTabBar }
 };
 </script>
 
 <style>
 @import "./assets/css/base.css";
-#app{
+#app {
   margin-bottom: 49px;
 }
 </style>
