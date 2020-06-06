@@ -86,8 +86,15 @@ export default {
       currentType: "pop",
       isShowTop: false,
       tabOffsetTop: null,
-      isTabFixed: false
+      isTabFixed: false,
+      saveY: null
     };
+  },
+  activated(){
+    console.log("activated");
+  },
+  deactivated(){
+    console.log("deactivated")
   },
   computed: {
     showGoods() {
@@ -120,6 +127,8 @@ export default {
       // 是否吸顶
       this.isTabFixed = -position.y > this.tabOffsetTop;
       // console.log(-position.y, this.tabOffsetTop);
+      // 保存Y坐标, 用于保留位置
+      this.saveY = -position.y;
     },
     pullingUp() {
       console.log("上拉加载更多");
