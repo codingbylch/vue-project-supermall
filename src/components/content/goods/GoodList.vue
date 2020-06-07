@@ -1,12 +1,12 @@
 <template>
   <div class="goods">
-    <goods-list-item v-for="item in goods" :key="item.iid" :goods-item="item"></goods-list-item>
+    <good-list-item v-for="item in goods" :key="item.item_id" :goods-item="item"></good-list-item>
     <!-- {{goods}} -->
   </div>
 </template>
 
 <script>
-import GoodsListItem from "components/content/goods/GoodListItem";
+import GoodListItem from "components/content/goods/GoodListItem";
 export default {
   props: {
     goods: {
@@ -17,7 +17,7 @@ export default {
     }
   },
   components: {
-    GoodsListItem
+    GoodListItem
   }
 };
 </script>

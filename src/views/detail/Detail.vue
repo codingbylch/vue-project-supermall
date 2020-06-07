@@ -8,6 +8,7 @@
       <detail-goods-info :detail-info="detailInfo"></detail-goods-info>
       <detail-param-info></detail-param-info>
       <detail-comment-info></detail-comment-info>
+      <good-list :goods="recommends"></good-list>
     </scroll>
   </div>
 </template>
@@ -19,11 +20,12 @@ import DetailBaseInfo from "./childComps/DetailBaseInfo";
 import DetailShopInfo from "./childComps/DetailShopInfo";
 import DetailGoodsInfo from "./childComps/DetailGoodsInfo";
 import DetailParamInfo from "./childComps/DetailParamInfo";
-import DetailCommentInfo from './childComps/DetailCommentInfo';
+import DetailCommentInfo from "./childComps/DetailCommentInfo";
 
 import Scroll from "components/common/scroll/Scroll";
+import GoodList from 'components/content/goods/GoodList';
 
-import { getDetail, GoodsInfo } from "network/detail.js";
+import { getDetail, GoodsInfo, getRecommend } from "network/detail.js";
 
 export default {
   name: "Detail",
@@ -34,7 +36,8 @@ export default {
       goods: {},
       detailInfo: {},
       paramsInfo: {},
-      commentsInfo: {}
+      commentsInfo: {},
+      recommends: []
     };
   },
   components: {
@@ -42,10 +45,11 @@ export default {
     DetailSwiper,
     DetailBaseInfo,
     Scroll,
+    GoodList,
     DetailShopInfo,
     DetailGoodsInfo,
     DetailParamInfo,
-    DetailCommentInfo
+    DetailCommentInfo,
   },
   created() {
     // 1.保存传入的id
@@ -72,6 +76,11 @@ export default {
       if (data.rate.cRate !== 0) {
         this.commentsInfo = data.rate.list[0];
       }
+    });
+
+    getRecommend().then(res => {
+      this.recommends = res.data.list;
+      console.log(this.recommends)
     });
   }
 };
