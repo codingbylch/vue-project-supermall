@@ -7,6 +7,7 @@
       <detail-shop-info></detail-shop-info>
       <detail-goods-info :detail-info="detailInfo"></detail-goods-info>
       <detail-param-info></detail-param-info>
+      <detail-comment-info></detail-comment-info>
     </scroll>
   </div>
 </template>
@@ -15,9 +16,10 @@
 import DetailNavBar from "./childComps/DetailNavBar";
 import DetailSwiper from "./childComps/DetailSwiper";
 import DetailBaseInfo from "./childComps/DetailBaseInfo";
-import DetailShopInfo from './childComps/DetailShopInfo';
+import DetailShopInfo from "./childComps/DetailShopInfo";
 import DetailGoodsInfo from "./childComps/DetailGoodsInfo";
-import DetailParamInfo from './childComps/DetailParamInfo';
+import DetailParamInfo from "./childComps/DetailParamInfo";
+import DetailCommentInfo from './childComps/DetailCommentInfo';
 
 import Scroll from "components/common/scroll/Scroll";
 
@@ -30,8 +32,9 @@ export default {
       iid: null,
       topImages: [],
       goods: {},
-      detailInfo: null,
-      paramsInfo: null
+      detailInfo: {},
+      paramsInfo: {},
+      commentsInfo: {}
     };
   },
   components: {
@@ -41,7 +44,8 @@ export default {
     Scroll,
     DetailShopInfo,
     DetailGoodsInfo,
-    DetailParamInfo
+    DetailParamInfo,
+    DetailCommentInfo
   },
   created() {
     // 1.保存传入的id
@@ -64,7 +68,10 @@ export default {
       // 4.获取详细介绍
       this.detailInfo = data.detailInfo;
       // 5，获取商品参数信息
-
+      // 6. 获取评论信息
+      if (data.rate.cRate !== 0) {
+        this.commentsInfo = data.rate.list[0];
+      }
     });
   }
 };
