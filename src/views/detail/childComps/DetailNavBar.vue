@@ -1,6 +1,6 @@
 <template>
   <div>
-    <nav-bar>
+    <nav-bar class="nav-bar">
         <div slot="left" class="back" @click="backClick">
             <img src="~assets/img/common/back.svg" alt="back">
         </div>
@@ -54,5 +54,10 @@ export default {
 }
 .back img{
     margin-top: 12px;
+}
+.nav-bar{
+    background-color: white;
+    position: relative;
+    z-index: 1;
 }
 </style>

@@ -1,15 +1,19 @@
 <template>
   <div class="detail">
-    <detail-nav-bar></detail-nav-bar>
-    <detail-swiper :top-images="topImages"></detail-swiper>
-    <detail-base-info :goods="goods"></detail-base-info>
+    <detail-nav-bar class="detail-nav-bar"></detail-nav-bar>
+    <scroll class="content">
+      <detail-swiper :top-images="topImages"></detail-swiper>
+      <detail-base-info :goods="goods"></detail-base-info>
+    </scroll>
   </div>
 </template>
 
 <script>
 import DetailNavBar from "./childComps/DetailNavBar";
 import DetailSwiper from "./childComps/DetailSwiper";
-import DetailBaseInfo from './childComps/DetailBaseInfo';
+import DetailBaseInfo from "./childComps/DetailBaseInfo";
+
+import Scroll from "components/common/scroll/Scroll";
 
 import { getDetail, GoodsInfo } from "network/detail.js";
 
@@ -25,7 +29,8 @@ export default {
   components: {
     DetailNavBar,
     DetailSwiper,
-    DetailBaseInfo
+    DetailBaseInfo,
+    Scroll
   },
   created() {
     // 1.保存传入的id
@@ -48,5 +53,12 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
+.detail{
+    position: relative;
+    height: 100vh;
+}
+.content{
+    height: calc(100% - 93px);
+}
 </style>
