@@ -6,6 +6,7 @@
       <detail-base-info :goods="goods"></detail-base-info>
       <detail-shop-info></detail-shop-info>
       <detail-goods-info :detail-info="detailInfo"></detail-goods-info>
+      <detail-param-info></detail-param-info>
     </scroll>
   </div>
 </template>
@@ -16,6 +17,7 @@ import DetailSwiper from "./childComps/DetailSwiper";
 import DetailBaseInfo from "./childComps/DetailBaseInfo";
 import DetailShopInfo from './childComps/DetailShopInfo';
 import DetailGoodsInfo from "./childComps/DetailGoodsInfo";
+import DetailParamInfo from './childComps/DetailParamInfo';
 
 import Scroll from "components/common/scroll/Scroll";
 
@@ -28,7 +30,8 @@ export default {
       iid: null,
       topImages: [],
       goods: {},
-      detailInfo: null
+      detailInfo: null,
+      paramsInfo: null
     };
   },
   components: {
@@ -37,7 +40,8 @@ export default {
     DetailBaseInfo,
     Scroll,
     DetailShopInfo,
-    DetailGoodsInfo
+    DetailGoodsInfo,
+    DetailParamInfo
   },
   created() {
     // 1.保存传入的id
@@ -55,8 +59,12 @@ export default {
         data.shopInfo.service
       );
       //   console.log(this.goods);
-      // 3.获取详细介绍
+
+      // 3.创建店铺信息的对象
+      // 4.获取详细介绍
       this.detailInfo = data.detailInfo;
+      // 5，获取商品参数信息
+
     });
   }
 };

@@ -87,14 +87,17 @@ export default {
       isShowTop: false,
       tabOffsetTop: null,
       isTabFixed: false,
-      saveY: null
+      saveY: 0
     };
   },
-  activated(){
+  activated() {
     console.log("activated");
+    this.$refs.scroll.scrollTo(0, this.saveY, 0);
+    this.$refs.scroll.refresh();
   },
-  deactivated(){
-    console.log("deactivated")
+  deactivated() {
+    console.log("deactivated");
+    this.saveY = this.$refs.scroll.getScrollY();
   },
   computed: {
     showGoods() {
@@ -127,8 +130,6 @@ export default {
       // 是否吸顶
       this.isTabFixed = -position.y > this.tabOffsetTop;
       // console.log(-position.y, this.tabOffsetTop);
-      // 保存Y坐标, 用于保留位置
-      this.saveY = -position.y;
     },
     pullingUp() {
       console.log("上拉加载更多");

@@ -29,7 +29,7 @@ export default {
     // 3.监听上拉事件
     if (this.pullUpLoad) {
       this.scroll.on("pullingUp", () => {
-        console.log('监听上拉')
+        console.log("监听上拉");
         this.$emit("pullingUp");
       });
     }
@@ -58,6 +58,9 @@ export default {
     },
     refresh() {
       this.scroll && this.scroll.refresh();
+    },
+    getScrollY() {
+      return this.scroll ? this.scroll.y : 0;
     }
   }
 };
