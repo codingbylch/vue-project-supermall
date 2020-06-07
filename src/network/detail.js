@@ -23,3 +23,5 @@ export class GoodsInfo {
         this.realPrice = itemInfo.lowNowPrice;
     }
 }
+
+export 

@@ -4,6 +4,8 @@
     <scroll class="content">
       <detail-swiper :top-images="topImages"></detail-swiper>
       <detail-base-info :goods="goods"></detail-base-info>
+      <detail-shop-info></detail-shop-info>
+      <detail-goods-info :detail-info="detailInfo"></detail-goods-info>
     </scroll>
   </div>
 </template>
@@ -12,6 +14,8 @@
 import DetailNavBar from "./childComps/DetailNavBar";
 import DetailSwiper from "./childComps/DetailSwiper";
 import DetailBaseInfo from "./childComps/DetailBaseInfo";
+import DetailShopInfo from './childComps/DetailShopInfo';
+import DetailGoodsInfo from "./childComps/DetailGoodsInfo";
 
 import Scroll from "components/common/scroll/Scroll";
 
@@ -23,14 +27,17 @@ export default {
     return {
       iid: null,
       topImages: [],
-      goods: {}
+      goods: {},
+      detailInfo: null
     };
   },
   components: {
     DetailNavBar,
     DetailSwiper,
     DetailBaseInfo,
-    Scroll
+    Scroll,
+    DetailShopInfo,
+    DetailGoodsInfo
   },
   created() {
     // 1.保存传入的id
@@ -47,18 +54,20 @@ export default {
         data.columns,
         data.shopInfo.service
       );
-      console.log(this.goods);
+      //   console.log(this.goods);
+      // 3.获取详细介绍
+      this.detailInfo = data.detailInfo;
     });
   }
 };
 </script>
 
 <style scoped>
-.detail{
-    position: relative;
-    height: 100vh;
+.detail {
+  position: relative;
+  height: 100vh;
 }
-.content{
-    height: calc(100% - 93px);
+.content {
+  height: calc(100% - 93px);
 }
 </style>

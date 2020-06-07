@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="detail-base-info">
       <p>商品基本信息</p>
       <p>商品基本信息</p>
       <p>商品基本信息</p>
@@ -61,4 +61,7 @@ export default {
 </script>
 
 <style>
+.detail-base-info{
+    color: violet;
+}
 </style>
