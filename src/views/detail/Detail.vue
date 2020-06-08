@@ -1,14 +1,14 @@
 <template>
   <div class="detail">
-    <detail-nav-bar class="detail-nav-bar"></detail-nav-bar>
+    <detail-nav-bar class="detail-nav-bar" @titleClick="titleClick"></detail-nav-bar>
     <scroll class="content" ref="detailScroll">
       <detail-swiper :top-images="topImages"></detail-swiper>
       <detail-base-info :goods="goods"></detail-base-info>
       <detail-shop-info></detail-shop-info>
       <detail-goods-info :detail-info="detailInfo" @detailImageLoad="detailImageLoad"></detail-goods-info>
-      <detail-param-info></detail-param-info>
-      <detail-comment-info></detail-comment-info>
-      <good-list :goods="recommends"></good-list>
+      <detail-param-info ref="params"></detail-param-info>
+      <detail-comment-info ref="comment"></detail-comment-info>
+      <good-list :goods="recommends" ref="recommend"></good-list>
     </scroll>
   </div>
 </template>
@@ -40,7 +40,8 @@ export default {
       paramsInfo: {},
       commentsInfo: {},
       recommends: [],
-      newRefresh: null
+      newRefresh: null,
+      themeTopYs: []
     };
   },
   components: {
@@ -87,14 +88,39 @@ export default {
     });
 
     // 4.监听详情的图片加载完成
+
+    // 联动效果
+    this.$nextTick(() => {
+      // 根据最新的数据,对应的DOM已经被渲染出来,
+      //但图片依然没加载完(offsetTop不包含图片)
+      // offsetTop值不对,都是图片的问题
+
+      // 1.第一次获取, 值不对, offsetTop不包含图片
+    //   this.themeTopYs.push(0);
+    //   this.themeTopYs.push(this.$refs.params.$el.offsetTop);
+    //   this.themeTopYs.push(this.$refs.comment.$el.offsetTop);
+    //   this.themeTopYs.push(this.$refs.recommend.$el.offsetTop);
+    //   console.log(this.themeTopYs);
+    });
   },
+  updated() {},
   methods: {
     detailImageLoad() {
       //   console.log(this.$refs.detailScroll.refresh);
       if (this.newRefresh === null) {
         this.newRefresh = debounce(this.$refs.detailScroll.refresh, 400);
         this.newRefresh();
+        // 在这里联动效果, 或直接在图片加载后用防抖处理.
+        this.themeTopYs.push(0);
+        this.themeTopYs.push(this.$refs.params.$el.offsetTop);
+        this.themeTopYs.push(this.$refs.comment.$el.offsetTop);
+        this.themeTopYs.push(this.$refs.recommend.$el.offsetTop);
+        console.log(this.themeTopYs);
       }
+    },
+    titleClick(index) {
+      console.log("index:" + index);
+      this.$refs.detailScroll.scrollTo(0, -this.themeTopYs[index]+44, 200);
     }
   }
 };

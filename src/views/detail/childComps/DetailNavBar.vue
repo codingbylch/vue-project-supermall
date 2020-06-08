@@ -1,9 +1,9 @@
 <template>
   <div>
     <nav-bar class="nav-bar">
-        <div slot="left" class="back" @click="backClick">
-            <img src="~assets/img/common/back.svg" alt="back">
-        </div>
+      <div slot="left" class="back" @click="backClick">
+        <img src="~assets/img/common/back.svg" alt="back" />
+      </div>
       <div slot="center" class="title">
         <div
           v-for="(item,index) in titles"
@@ -30,13 +30,14 @@ export default {
       currentIndex: 0
     };
   },
-  methods:{
-      itemClick(index){
-          this.currentIndex = index
-      },
-      backClick(){
-          this.$router.go(-1)
-      }
+  methods: {
+    itemClick(index) {
+      this.currentIndex = index;
+      this.$emit("titleClick", index);
+    },
+    backClick() {
+      this.$router.go(-1);
+    }
   }
 };
 </script>
@@ -49,15 +50,15 @@ export default {
 .title-item {
   flex: 1;
 }
-.active{
-    color: var(--color-high-text);
+.active {
+  color: var(--color-high-text);
 }
-.back img{
-    margin-top: 12px;
+.back img {
+  margin-top: 12px;
 }
-.nav-bar{
-    background-color: white;
-    position: relative;
-    z-index: 1;
+.nav-bar {
+  background-color: white;
+  position: relative;
+  z-index: 1;
 }
 </style>
