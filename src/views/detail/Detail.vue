@@ -1,7 +1,7 @@
 <template>
   <div class="detail">
-    <detail-nav-bar class="detail-nav-bar" @titleClick="titleClick"></detail-nav-bar>
-    <scroll class="content" ref="detailScroll">
+    <detail-nav-bar class="detail-nav-bar" @titleClick="titleClick" ref="navbar"></detail-nav-bar>
+    <scroll class="content" ref="detailScroll" @scroll="contentScroll" :probeType="3">
       <detail-swiper :top-images="topImages"></detail-swiper>
       <detail-base-info :goods="goods"></detail-base-info>
       <detail-shop-info></detail-shop-info>
@@ -41,7 +41,8 @@ export default {
       commentsInfo: {},
       recommends: [],
       newRefresh: null,
-      themeTopYs: []
+      themeTopYs: [],
+      currentIndex: null
     };
   },
   components: {
@@ -94,13 +95,12 @@ export default {
       // 根据最新的数据,对应的DOM已经被渲染出来,
       //但图片依然没加载完(offsetTop不包含图片)
       // offsetTop值不对,都是图片的问题
-
       // 1.第一次获取, 值不对, offsetTop不包含图片
-    //   this.themeTopYs.push(0);
-    //   this.themeTopYs.push(this.$refs.params.$el.offsetTop);
-    //   this.themeTopYs.push(this.$refs.comment.$el.offsetTop);
-    //   this.themeTopYs.push(this.$refs.recommend.$el.offsetTop);
-    //   console.log(this.themeTopYs);
+      //   this.themeTopYs.push(0);
+      //   this.themeTopYs.push(this.$refs.params.$el.offsetTop);
+      //   this.themeTopYs.push(this.$refs.comment.$el.offsetTop);
+      //   this.themeTopYs.push(this.$refs.recommend.$el.offsetTop);
+      //   console.log(this.themeTopYs);
     });
   },
   updated() {},
@@ -120,7 +120,30 @@ export default {
     },
     titleClick(index) {
       console.log("index:" + index);
-      this.$refs.detailScroll.scrollTo(0, -this.themeTopYs[index]+44, 200);
+      this.$refs.detailScroll.scrollTo(0, -this.themeTopYs[index] + 44, 0);
+    },
+    contentScroll(position) {
+      console.log(position);
+      // 1.获取y值
+      const positionY = -position.y + 44; //注意这里的44px, 顶部导航栏
+      // 2.positionY和主题中的值进行对比
+      for (let i in this.themeTopYs) {
+        i = parseInt(i);
+        if (
+          positionY > this.themeTopYs[i] &&
+          positionY < this.themeTopYs[i + 1] &&
+          this.currentIndex != i
+        ) {
+          this.currentIndex = i;
+        } else if (
+          positionY > this.themeTopYs[i] &&
+          i == this.themeTopYs.length - 1 &&
+          this.currentIndex != i
+        ) {
+          this.currentIndex = i;
+        }
+      }
+      this.$refs.navbar.currentIndex = this.currentIndex;
     }
   }
 };
