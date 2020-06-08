@@ -5,6 +5,7 @@ export function debounce(func, delay = 200) {
         timer = setTimeout(() => {
             console.log('refresh防抖处理')
             func.apply(this, args);
+            // console.log(func)
         }, delay);
     };
 }

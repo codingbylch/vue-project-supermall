@@ -1,11 +1,11 @@
 <template>
   <div class="detail">
     <detail-nav-bar class="detail-nav-bar"></detail-nav-bar>
-    <scroll class="content">
+    <scroll class="content" ref="detailScroll">
       <detail-swiper :top-images="topImages"></detail-swiper>
       <detail-base-info :goods="goods"></detail-base-info>
       <detail-shop-info></detail-shop-info>
-      <detail-goods-info :detail-info="detailInfo"></detail-goods-info>
+      <detail-goods-info :detail-info="detailInfo" @detailImageLoad="detailImageLoad"></detail-goods-info>
       <detail-param-info></detail-param-info>
       <detail-comment-info></detail-comment-info>
       <good-list :goods="recommends"></good-list>
@@ -23,7 +23,9 @@ import DetailParamInfo from "./childComps/DetailParamInfo";
 import DetailCommentInfo from "./childComps/DetailCommentInfo";
 
 import Scroll from "components/common/scroll/Scroll";
-import GoodList from 'components/content/goods/GoodList';
+import GoodList from "components/content/goods/GoodList";
+
+import { debounce } from "@/common/utils.js";
 
 import { getDetail, GoodsInfo, getRecommend } from "network/detail.js";
 
@@ -37,7 +39,8 @@ export default {
       detailInfo: {},
       paramsInfo: {},
       commentsInfo: {},
-      recommends: []
+      recommends: [],
+      newRefresh: null
     };
   },
   components: {
@@ -49,7 +52,7 @@ export default {
     DetailShopInfo,
     DetailGoodsInfo,
     DetailParamInfo,
-    DetailCommentInfo,
+    DetailCommentInfo
   },
   created() {
     // 1.保存传入的id
@@ -77,11 +80,22 @@ export default {
         this.commentsInfo = data.rate.list[0];
       }
     });
-
+    // 3.请求推荐数据
     getRecommend().then(res => {
       this.recommends = res.data.list;
-      console.log(this.recommends)
+      console.log("recommends: " + this.recommends);
     });
+
+    // 4.监听详情的图片加载完成
+  },
+  methods: {
+    detailImageLoad() {
+      //   console.log(this.$refs.detailScroll.refresh);
+      if (this.newRefresh === null) {
+        this.newRefresh = debounce(this.$refs.detailScroll.refresh, 400);
+        this.newRefresh();
+      }
+    }
   }
 };
 </script>

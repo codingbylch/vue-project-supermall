@@ -6,7 +6,7 @@
     <tab-control
       :titles="['流行','新款','精选']"
       @tabClick="tabClick"
-      ref="tabControl"
+      ref="topTabControl"
       class="tab-control"
       v-show="isTabFixed"
     ></tab-control>
@@ -92,12 +92,14 @@ export default {
   },
   activated() {
     console.log("activated");
-    this.$refs.scroll.scrollTo(0, this.saveY, 0);
+    this.$refs.scroll.scrollTo(0, this.saveY, 300);
     this.$refs.scroll.refresh();
+    // console.log(this.saveY+'  activated')
   },
   deactivated() {
     console.log("deactivated");
     this.saveY = this.$refs.scroll.getScrollY();
+    // console.log(this.saveY+'  deactivated')
   },
   computed: {
     showGoods() {
@@ -119,6 +121,8 @@ export default {
           break;
       }
       console.log(this.currentType);
+      this.$refs.topTabControl.currentIndex = index;
+      this.$refs.tabControl.currentIndex = index;
     },
     backClick() {
       // 通过$ref来访问组件内的属性和方法
