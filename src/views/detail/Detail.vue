@@ -11,6 +11,7 @@
       <good-list :goods="recommends" ref="recommend"></good-list>
     </scroll>
     <detail-bottom-bar class="bottom-bar"></detail-bottom-bar>
+    <back-top @click.native="backClick" v-show="isShowTop"></back-top>
   </div>
 </template>
 
@@ -22,10 +23,11 @@ import DetailShopInfo from "./childComps/DetailShopInfo";
 import DetailGoodsInfo from "./childComps/DetailGoodsInfo";
 import DetailParamInfo from "./childComps/DetailParamInfo";
 import DetailCommentInfo from "./childComps/DetailCommentInfo";
-import DetailBottomBar from './childComps/DetailBottomBar';
+import DetailBottomBar from "./childComps/DetailBottomBar";
 
 import Scroll from "components/common/scroll/Scroll";
 import GoodList from "components/content/goods/GoodList";
+import BackTop from "components/content/backTop/BackTop";
 
 import { debounce } from "@/common/utils.js";
 
@@ -44,7 +46,8 @@ export default {
       recommends: [],
       newRefresh: null,
       themeTopYs: [],
-      currentIndex: null
+      currentIndex: null,
+      isShowTop: null
     };
   },
   components: {
@@ -57,7 +60,8 @@ export default {
     DetailGoodsInfo,
     DetailParamInfo,
     DetailCommentInfo,
-    DetailBottomBar
+    DetailBottomBar,
+    BackTop
   },
   created() {
     // 1.保存传入的id
@@ -126,7 +130,8 @@ export default {
       this.$refs.detailScroll.scrollTo(0, -this.themeTopYs[index] + 44, 0);
     },
     contentScroll(position) {
-      console.log(position);
+      // console.log(position);
+      this.isShowTop = position.y < -1000;
       // 1.获取y值
       const positionY = -position.y + 44; //注意这里的44px, 顶部导航栏
       // 2.positionY和主题中的值进行对比
@@ -147,6 +152,10 @@ export default {
         }
       }
       this.$refs.navbar.currentIndex = this.currentIndex;
+    },
+    backClick() {
+      // 通过$ref来访问组件内的属性和方法
+      this.$refs.detailScroll.scrollTo(0, 0, 500);
     }
   }
 };
@@ -156,9 +165,10 @@ export default {
 .detail {
   position: relative;
   height: 100vh;
+  z-index: 8;
+  background-color: #ffffff;
 }
 .content {
   height: calc(100% - 93px);
 }
-
 </style>

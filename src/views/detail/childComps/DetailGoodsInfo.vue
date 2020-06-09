@@ -46,4 +46,7 @@ export default {
 .detail-goods-info{
   color: cornflowerblue;
 }
+.info-list img{
+  width: 100%;
+}
 </style>
