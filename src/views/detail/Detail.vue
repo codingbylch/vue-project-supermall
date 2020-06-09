@@ -10,6 +10,7 @@
       <detail-comment-info ref="comment"></detail-comment-info>
       <good-list :goods="recommends" ref="recommend"></good-list>
     </scroll>
+    <detail-bottom-bar class="bottom-bar"></detail-bottom-bar>
   </div>
 </template>
 
@@ -21,6 +22,7 @@ import DetailShopInfo from "./childComps/DetailShopInfo";
 import DetailGoodsInfo from "./childComps/DetailGoodsInfo";
 import DetailParamInfo from "./childComps/DetailParamInfo";
 import DetailCommentInfo from "./childComps/DetailCommentInfo";
+import DetailBottomBar from './childComps/DetailBottomBar';
 
 import Scroll from "components/common/scroll/Scroll";
 import GoodList from "components/content/goods/GoodList";
@@ -54,7 +56,8 @@ export default {
     DetailShopInfo,
     DetailGoodsInfo,
     DetailParamInfo,
-    DetailCommentInfo
+    DetailCommentInfo,
+    DetailBottomBar
   },
   created() {
     // 1.保存传入的id
@@ -157,4 +160,5 @@ export default {
 .content {
   height: calc(100% - 93px);
 }
+
 </style>
