@@ -3,6 +3,11 @@
     <detail-nav-bar class="detail-nav-bar" @titleClick="titleClick" ref="navbar"></detail-nav-bar>
     <scroll class="content" ref="detailScroll" @scroll="contentScroll" :probeType="3">
       <detail-swiper :top-images="topImages"></detail-swiper>
+      <div>
+        <ul>
+          <li v-for="item in $store.state.cartList">{{item}}</li>
+        </ul>
+      </div>
       <detail-base-info :goods="goods"></detail-base-info>
       <detail-shop-info></detail-shop-info>
       <detail-goods-info :detail-info="detailInfo" @detailImageLoad="detailImageLoad"></detail-goods-info>
@@ -10,7 +15,7 @@
       <detail-comment-info ref="comment"></detail-comment-info>
       <good-list :goods="recommends" ref="recommend"></good-list>
     </scroll>
-    <detail-bottom-bar class="bottom-bar"></detail-bottom-bar>
+    <detail-bottom-bar class="bottom-bar" @openShoppingCart="openShoppingCart"></detail-bottom-bar>
     <back-top @click.native="backClick" v-show="isShowTop"></back-top>
   </div>
 </template>
@@ -156,6 +161,20 @@ export default {
     backClick() {
       // 通过$ref来访问组件内的属性和方法
       this.$refs.detailScroll.scrollTo(0, 0, 500);
+    },
+    openShoppingCart() {
+      // 1.获取购物车需要展示的信息
+      // console.log('添加到购物车')
+      const product = {};
+      product.image = this.topImages[0];
+      product.title = this.goods.title;
+      product.desc = this.goods.desc;
+      product.price = this.goods.price;
+      product.iid = this.iid;
+      // console.log(product);
+
+      // 2.将商品添加到购物车里
+      this.$store.commit("addCart", product);
     }
   }
 };
@@ -170,5 +189,6 @@ export default {
 }
 .content {
   height: calc(100% - 93px);
+  overflow: hidden;
 }
 </style>

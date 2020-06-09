@@ -21,11 +21,12 @@ export class GoodsInfo {
     constructor(itemInfo, columns, services) {
         this.title = itemInfo.title;
         this.desc = itemInfo.desc;
-        this.newPrice = itemInfo.newPrice;
+        this.price = itemInfo.lowNowPrice;
         this.oldPrice = itemInfo.oldPrice;
         this.discount = itemInfo.discount;
         this.columns = columns;
         this.services = services;
         this.realPrice = itemInfo.lowNowPrice;
+        this.count = 0;
     }
 }

@@ -27,6 +27,7 @@ export default {
   methods: {
     //1、添加到购物车
     openShoppingCart() {
+        
       this.$emit("openShoppingCart");
     }
   }
