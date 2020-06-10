@@ -1,7 +1,7 @@
 <template>
   <div id="shop-item">
-    <div class="item-selector">
-        <check-button ></check-button>
+    <div class="item-selector" @click="CheckClick"> 
+      <check-button :is-checked="product.checked" ></check-button>
     </div>
     <div class="item-img">
       <img :src="product.image" alt="photo" />
@@ -18,7 +18,7 @@
 </template>
 
 <script>
-import CheckButton from 'components/content/checkButton/CheckButton';
+import CheckButton from "components/content/checkButton/CheckButton";
 
 export default {
   props: {
@@ -29,8 +29,13 @@ export default {
       }
     }
   },
-  components:{
-      CheckButton
+  components: {
+    CheckButton
+  },
+  methods: {
+    CheckClick() {
+      this.product.checked = !this.product.checked;
+    }
   }
 };
 </script>
@@ -41,7 +46,9 @@ export default {
   display: flex;
   font-size: 0;
   padding: 5px;
-  border-bottom: 1px solid #ccc;
+  margin: 10px 0px;
+  border-radius: 5%;
+  background-color: white;
 }
 .item-selector {
   width: 20px;
@@ -80,6 +87,7 @@ export default {
   height: 110px;
   display: block;
   border-radius: 5px;
+
 }
 .item-info {
   width: 100%;

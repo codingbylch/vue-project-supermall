@@ -31,11 +31,13 @@ export default {
 .content {
   /* height: calc(100% - 93px); */
   height: 100%;
+  padding: 10px 0px 10px 0px;
 }
 .cart-list {
   overflow: hidden;
   /* height: 100%; */
-  height: calc(100% - 93px);
+  height: calc(100% - 133px);
   position: relative;
+  background-color:#f6f6f6
 }
 </style>

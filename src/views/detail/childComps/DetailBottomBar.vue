@@ -15,7 +15,7 @@
       </div>
     </div>
     <div class="bar-item bar-right">
-      <div class="cart" @click="openShoppingCart">加入购物车</div>
+      <div class="detail-bottom-cart" @click="openShoppingCart">加入购物车</div>
       <div class="buy">购买</div>
     </div>
   </div>
@@ -76,7 +76,7 @@ export default {
   color: #fff;
   line-height: 49px;
 }
-.bar-right .cart {
+.bar-right .detail-bottom-cart {
   background-color: #ffe817;
   color: #333;
 }

@@ -20,8 +20,10 @@ export default {
 <style>
 .check-button {
   border-radius: 50%;
+  background-color: lightgray;
 }
 .isActive {
+  border-radius: 50%;
   background-color: deeppink;
 }
 </style>
