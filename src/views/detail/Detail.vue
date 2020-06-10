@@ -5,7 +5,7 @@
       <detail-swiper :top-images="topImages"></detail-swiper>
       <div>
         <ul>
-          <li v-for="item in $store.state.cartList">{{item}}</li>
+          <li v-for="item in $store.state.cartList" :key="item.iid">{{item}}</li>
         </ul>
       </div>
       <detail-base-info :goods="goods"></detail-base-info>
