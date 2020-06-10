@@ -91,13 +91,13 @@ export default {
     };
   },
   activated() {
-    console.log("activated");
+    // console.log("activated");
     this.$refs.scroll.scrollTo(0, this.saveY, 300);
     this.$refs.scroll.refresh();
     // console.log(this.saveY+'  activated')
   },
   deactivated() {
-    console.log("deactivated");
+    // console.log("deactivated");
     this.saveY = this.$refs.scroll.getScrollY();
     // console.log(this.saveY+'  deactivated')
   },
