@@ -5,7 +5,7 @@
       <span class="text-selectall">全选</span>
     </div>
     <div>合计：{{totalPrice}}</div>
-    <div class="cash-settlement">结算:{{checkLength}}</div>
+    <div class="cash-settlement" @click="settleClick">结算:{{checkLength}}</div>
   </div>
 </template>
 
@@ -37,7 +37,12 @@ export default {
     },
     isSelectAll() {
       //   return this.cartList.every(item => item.checked);
-      return !(!this.cartList.length) && !this.cartList.find(item => !item.checked);
+      return (
+        !!this.cartList.length && !this.cartList.find(item => !item.checked)
+      );
+    },
+    checkIsSelect() {
+      return this.cartList.find(item => item.checked);
     }
   },
   methods: {
@@ -50,6 +55,11 @@ export default {
         for (let item of this.cartList) {
           item.checked = true;
         }
+      }
+    },
+    settleClick() {
+      if (!this.checkIsSelect) {
+        this.$toast.showMessage("请选择商品", 1000);
       }
     }
   }
