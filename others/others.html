@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="app">
+        {{message}}
+    </div>
+</body>
+<script src="./vue.js"></script>
+<script>
+    const vue = new Vue({
+        el: '#app',
+        data: {
+            message: 'hello world'
+        }
+    })
+
+    const obj = {
+        message: 'hahaha',
+        name: 'lch'
+    }
+    Object.keys(obj).forEach(key => {
+        let value = obj[key];
+        Object.defineProperty(obj, key, {
+            set(newValue) {
+                console.log('监听' + key + '改变');
+                // 根据解析html代码,获取到哪些地方在用属性
+                value = newValue;
+                dep.notify(); //set下数据发生改变, 则利用notify通知watcher
+            },
+            get() {
+                return value
+            }
+        })
+    })
+    // 发布者
+    class Dep {
+        constructor() {
+            this.subs = [];
+        }
+        addSub(watcher) {
+            this.subs.push(watcher)
+        }
+        notify() {
+            this.subs.forEach(item => {
+                item.update(); //让每个watcher调用自己的update方法
+            })
+        }
+    }
+    // 订阅者
+    class Watcher {
+        constructor(name) {
+            this.name = name
+        }
+        update() {
+            console.log(this.name + '发生update.')
+        }
+    }
+    let dep = new Dep();
+    let w1 = new Watcher('法外狂徒张三');
+    let w2 = new Watcher('喜出望外李四');
+    dep.addSub(w1);
+    dep.addSub(w2);
+</script>
+
+</html>
