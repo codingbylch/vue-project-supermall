@@ -17,6 +17,7 @@
     </scroll>
     <detail-bottom-bar class="bottom-bar" @openShoppingCart="openShoppingCart"></detail-bottom-bar>
     <back-top @click.native="backClick" v-show="isShowTop"></back-top>
+    <toast :message="toastMessage" :show="toastShow"></toast>
   </div>
 </template>
 
@@ -31,12 +32,15 @@ import DetailCommentInfo from "./childComps/DetailCommentInfo";
 import DetailBottomBar from "./childComps/DetailBottomBar";
 
 import Scroll from "components/common/scroll/Scroll";
+import Toast from "components/common/toast/Toast";
 import GoodList from "components/content/goods/GoodList";
 import BackTop from "components/content/backTop/BackTop";
 
 import { debounce } from "@/common/utils.js";
 
 import { getDetail, GoodsInfo, getRecommend } from "network/detail.js";
+
+import { mapActions } from "vuex";
 
 export default {
   name: "Detail",
@@ -52,7 +56,9 @@ export default {
       newRefresh: null,
       themeTopYs: [],
       currentIndex: null,
-      isShowTop: null
+      isShowTop: null,
+      toastMessage: "",
+      toastShow: false
     };
   },
   components: {
@@ -60,6 +66,7 @@ export default {
     DetailSwiper,
     DetailBaseInfo,
     Scroll,
+    Toast,
     GoodList,
     DetailShopInfo,
     DetailGoodsInfo,
@@ -117,6 +124,7 @@ export default {
   },
   updated() {},
   methods: {
+    ...mapActions(["addCart"]),
     detailImageLoad() {
       //   console.log(this.$refs.detailScroll.refresh);
       if (this.newRefresh === null) {
@@ -175,7 +183,15 @@ export default {
 
       // 2.将商品添加到购物车里
       // this.$store.commit("addCart", product);
-      this.$store.dispatch("addCart", product);
+      // this.$store.dispatch("addCart", product).then(res => console.log(res));
+      this.addCart(product).then(res => {
+        this.toastMessage = res;
+        this.toastShow = true;
+        setTimeout(() => {
+          this.toastShow = false;
+          this.toastMessage = "";
+        }, 1500);
+      });
     }
   }
 };

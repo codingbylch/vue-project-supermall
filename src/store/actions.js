@@ -5,20 +5,23 @@ import {
 
 export default {
     addCart(context, payload) {
-        // 添加新商品
-        let oldProduct = null;
-        for (let item of context.state.cartList) {
-            if (item.iid === payload.iid) {
-                oldProduct = item;
+        return new Promise((resolve, reject) => {
+            // 添加新商品
+            let oldProduct = null;
+            for (let item of context.state.cartList) {
+                if (item.iid === payload.iid) {
+                    oldProduct = item;
+                }
             }
-        }
-        if (oldProduct) {
-            context.commit(ADD_COUNTER, oldProduct)
-        } else {
-            payload.count = 1
-            // context.state.cartList.push(payload)
-            context.commit(ADD_TO_CART, payload)
-        }
-
+            if (oldProduct) {
+                context.commit(ADD_COUNTER, oldProduct)
+            } else {
+                payload.count = 1
+                // context.state.cartList.push(payload)
+                context.commit(ADD_TO_CART, payload)
+            }
+            resolve('成功添加到购物车！')
+        })
     }
+
 }
