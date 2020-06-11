@@ -1,10 +1,10 @@
 <template>
   <div class="bottom-bar">
-    <div class="check-all-button">
-      <check-button class="bottom-check-button"></check-button>
+    <div class="check-all-button" @click="selectAllClick">
+      <check-button :is-checked="isSelectAll" class="bottom-check-button"></check-button>
       <span class="text-selectall">全选</span>
-      <div>合计：{{totalPrice}}</div>
     </div>
+    <div>合计：{{totalPrice}}</div>
     <div class="cash-settlement">结算:{{checkLength}}</div>
   </div>
 </template>
@@ -34,6 +34,23 @@ export default {
     },
     checkLength() {
       return this.cartList.filter(item => item.checked).length;
+    },
+    isSelectAll() {
+      //   return this.cartList.every(item => item.checked);
+      return !(!this.cartList.length) && !this.cartList.find(item => !item.checked);
+    }
+  },
+  methods: {
+    selectAllClick() {
+      if (this.isSelectAll) {
+        for (let item of this.cartList) {
+          item.checked = false;
+        }
+      } else {
+        for (let item of this.cartList) {
+          item.checked = true;
+        }
+      }
     }
   }
 };
