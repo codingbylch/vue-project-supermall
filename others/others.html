@@ -35,6 +35,7 @@
                 dep.notify(); //set下数据发生改变, 则利用notify通知watcher
             },
             get() {
+                // 每读取一次就添加一个watcher
                 return value
             }
         })
