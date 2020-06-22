@@ -41,6 +41,7 @@ import { debounce } from "@/common/utils.js";
 import { getDetail, GoodsInfo, getRecommend } from "network/detail.js";
 
 import { mapActions } from "vuex";
+import func from "../../../vue-temp/vue-editor-bridge";
 
 export default {
   name: "Detail",
@@ -121,6 +122,7 @@ export default {
       //   this.themeTopYs.push(this.$refs.recommend.$el.offsetTop);
       //   console.log(this.themeTopYs);
     });
+
   },
   updated() {},
   methods: {

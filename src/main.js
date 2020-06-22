@@ -13,7 +13,7 @@ Vue.prototype.$bus = new Vue() // Vue实例可以作为一个事件总线
 //安装toast插件
 Vue.use(toast);
 
-//使用懒加载差价
+//使用懒加载插件
 Vue.use(VueLazyLoad, {
   error: require('assets/img/common/error.jpg'),
   loading: require('assets/img/common/loading.gif')
